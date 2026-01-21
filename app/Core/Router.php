@@ -23,10 +23,9 @@ class Router
             echo "404 - Route Not Found";
             exit;
         }
-        $con=$this->routes[$requestMethod][$uri][0];
+        $cont=$this->routes[$requestMethod][$uri][0];
         $method = $this->routes[$requestMethod][$uri][1];
-        $className = 'App\\Core\\'.$con;
-
+        $className = 'App\\Controllers\\'.$cont;
         $controller = new $className();
         $controller->$method();
     }
