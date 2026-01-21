@@ -34,6 +34,12 @@ CREATE TABLE IF NOT EXISTS recruiters (
     Foreign Key (id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS skills (
+    id INT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL
+    candidate_id INT PRIMARY KEY,
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS categories (
     id INT PRIMARY KEY,
     title VARCHAR(50) NOT NULL
