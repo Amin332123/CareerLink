@@ -343,9 +343,9 @@
                 <h2>Create New Category</h2>
                 <button class="close-modal-btn" onclick="closeModal('createCategoryModal')">×</button>
             </div>
-            <form class="modal-form" action="create_category.php" method="POST">
-                <input type="text" name="category_name" placeholder="Enter category name..." required>
-                <button type="submit" class="submit-modal-btn">Create Category</button>
+            <form class="modal-form" id="createCategory">
+                <input type="text" name="CategoryName" id="CategoryName" placeholder="Enter category name..." required>
+                <input type="submit" class="submit-modal-btn" value="Create Category">
             </form>
         </div>
     </div>

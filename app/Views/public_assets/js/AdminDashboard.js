@@ -1,4 +1,76 @@
 // Fake job data for modal
+const CreateCategoryForm = document.getElementById('createCategory');
+// var inputCatergoryValue = document.getElementById('CategoryName');
+
+
+CreateCategoryForm.addEventListener('submit', (e) => {
+    submitNewCategory(e);
+
+})
+
+function submitNewCategory(e) {
+    e.preventDefault();
+    const categoryName = document.getElementById('CategoryName').value;
+    var data = {categoryName};
+   
+    fetch('http://localhost/CareerLink/app/Models/Services/test.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify(data)
+    })
+    .then(res => {
+        if (res.ok) {
+             return res.text();
+        } else {
+            return "Error" + res.status;
+        }
+    })
+    .then(data => {
+        alert(data);
+    })
+   
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const jobsData = [
     {
         title: "Senior Frontend Developer",
@@ -337,5 +409,3 @@ document.head.appendChild(rippleStyle);
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('click', createRipple);
 });
-
-console.log('Admin Dashboard loaded successfully! 🚀');
