@@ -402,30 +402,8 @@
                 <button class="close-modal-btn" onclick="closeModal('showCategoriesModal')">×</button>
             </div>
             <div class="tags-display" id="categoriesDisplay">
-                <div class="display-tag">
-                    Technology
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Technology')">×</button>
-                </div>
-                <div class="display-tag">
-                    Healthcare
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Healthcare')">×</button>
-                </div>
-                <div class="display-tag">
-                    Finance
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Finance')">×</button>
-                </div>
-                <div class="display-tag">
-                    Marketing
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Marketing')">×</button>
-                </div>
-                <div class="display-tag">
-                    Food & Beverage
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Food & Beverage')">×</button>
-                </div>
-                <div class="display-tag">
-                    Education
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Education')">×</button>
-                </div>
+                
+               
             </div>
         </div>
     </div>

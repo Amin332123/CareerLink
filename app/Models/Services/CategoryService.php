@@ -20,6 +20,18 @@ class CategoryService
         }
         return null;
     }
+
+
+    public function DisplayCatergories(){
+        $categories = $this->categoryRepository->findAll();
+        
+        echo json_encode($categories);
+    }
+
+    public function DeleteCategory($categoryName) {
+         $this->categoryRepository->delete($categoryName); 
+
+    }
 }
 
 

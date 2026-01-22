@@ -29,4 +29,19 @@ class CategoryController
         }
     }
 
+
+    public function DisplayCatergories() {
+        $categories  = $this->categoryService->DisplayCatergories();
+    }
+
+
+    public function DeleteCategory() {
+         header('Content-Type: application/json');
+        $data = json_decode(file_get_contents("php://input"), true);
+        $categoryName = $data['text'] ?? '';
+        
+        $this->categoryService->DeleteCategory($categoryName);
+
+    }
+
 }

@@ -648,7 +648,7 @@ body {
     }
 }
 
-.delete-tag-btn {
+.delete-tag-btn , .delete-tag-btns {
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -664,7 +664,7 @@ body {
     font-weight: 700;
 }
 
-.delete-tag-btn:hover {
+.delete-tag-btn:hover , .delete-tag-btns:hover{
     background: var(--danger);
     transform: scale(1.2);
 }
