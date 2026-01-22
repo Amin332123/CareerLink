@@ -1,20 +1,45 @@
 <?php
+
 namespace App\Models\Repository;
+
+use App\Config\Database;
 use PDO;
+
 class AdminRepository
 {
-    private $db;
+
+    private PDO $conn;
+
     public function __construct()
     {
-        $this->db = new PDO("mysql:host=localhost;dbname=careerlink", "root", "12341234");
+        $this->conn = Database::getConnection();
     }
 
-    public function AddCategory($categoryName)
+    public function findById($id)
     {
-        $query = "INSERT INTO categories (title) VALUES (:title);";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':title', $categoryName);
+        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE id=:id AND r.title = 'admin' ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return "Category created successfully.";
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
+
+    public function findByEmail($email){
+        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE email=:email AND r.title = 'admin' ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function findAll(){
+        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE r.title = 'admin'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
 }

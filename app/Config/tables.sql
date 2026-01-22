@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS careerlink;
 use careerlink;
 
 CREATE TABLE IF NOT EXISTS roles (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title ENUM(
         'admin',
         'recruiter',
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS roles (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL,
@@ -34,18 +34,24 @@ CREATE TABLE IF NOT EXISTS recruiters (
     Foreign Key (id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS skills (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL
+    candidate_id INT PRIMARY KEY,
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS categories (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS tags (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS offers (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     location VARCHAR(50) NOT NULL,
     salary FLOAT NOT NULL,
@@ -57,15 +63,15 @@ CREATE TABLE IF NOT EXISTS offers (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS tags_offers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     offer_id INT NOT NULL,
     tag_id INT NOT NULL,
-    PRIMARY KEY (offer_id, tag_id),
     Foreign Key (offer_id) REFERENCES offers (id) ON DELETE CASCADE,
     Foreign Key (tag_id) REFERENCES tags (id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS applications (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     status ENUM(
         'waiting',
