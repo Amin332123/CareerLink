@@ -3,6 +3,7 @@
 namespace App\Models\Repository;
 
 use App\Config\Database;
+use App\Models\Entity\Candidate;
 use PDO;
 
 class CandidateRepository
@@ -15,7 +16,7 @@ class CandidateRepository
         $this->conn = Database::getConnection();
     }
 
-    public function findById($id)
+    public function findById(int $id)
     {
         $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE id=:id";
         $stmt = $this->conn->prepare($query);
@@ -25,7 +26,7 @@ class CandidateRepository
         return $result;
     }
 
-    public function findByEmail($email)
+    public function findByEmail(string $email)
     {
         $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE email=:email";
         $stmt = $this->conn->prepare($query);
@@ -44,18 +45,24 @@ class CandidateRepository
         return $result;
     }
 
-    public function create($user)
+    public function create(Candidate $user)
     {
         $query = "INSERT INTO users(name,email,password) VALUES (:name, :email, :password)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $user->getName(), PDO::PARAM_STR);
         $stmt->bindParam(':email', $user->getEmail(), PDO::PARAM_STR);
         $stmt->bindParam(':password', $user->getPassword(), PDO::PARAM_STR);
-        $stmt->execute();
-
-        $stmt->bindParam(':recruiter_id', $user->getRecruiterId(), PDO::PARAM_INT);
-        $stmt->bindParam(':category_id', $user->getCategory()->getId(), PDO::PARAM_INT);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        if ($stmt->execute()) {
+            $id = (int) $this->conn->lastInsertId();
+            $query = "INSERT INTO candidates(id, current_job, profile_picture) VALUES (:id, :current_job, :profile_picture)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':current_job', $user->getPicture(), PDO::PARAM_STR);
+            $stmt->bindParam(':profile_picture', $user->getJob(), PDO::PARAM_STR);
+            if ($stmt->execute()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

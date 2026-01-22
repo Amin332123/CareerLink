@@ -53,12 +53,10 @@ class OfferRepository
         $stmt->bindParam(':salary', $offer->getSalary(), PDO::PARAM_STR);
         $stmt->bindParam(':recruiter_id', $offer->getRecruiterId(), PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $offer->getCategory()->getId(), PDO::PARAM_INT);
-        $stmt->execute();
-        if ($this->conn->lastInsertId()) {
-            $result = (int) $this->conn->lastInsertId();
-            return $result;
+        if ($stmt->execute()) {
+            return true;
         }
-        return -1;
+        return false;
     }
 
     public function update($offer)
@@ -70,12 +68,10 @@ class OfferRepository
         $stmt->bindParam(':salary', $offer->getSalary(), PDO::PARAM_STR);
         $stmt->bindParam(':recruiter_id', $offer->getRecruiterId(), PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $offer->getCategory()->getId(), PDO::PARAM_INT);
-        $stmt->execute();
-        if ($this->conn->lastInsertId()) {
-            $result = (int) $this->conn->lastInsertId();
-            return $result;
+        if ($stmt->execute()) {
+            return true;
         }
-        return -1;
+        return false;
     }
 
         public function delete($id)
@@ -83,8 +79,9 @@ class OfferRepository
         $query = "DELETE FROM offers WHERE id=:id ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        if (!$stmt->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
+        return false;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models\Repository;
 
 use App\Config\Database;
+use App\Models\Entity\Recruiter;
 use PDO;
 
 class RecruiterRepository
@@ -42,4 +43,22 @@ class RecruiterRepository
         return $result;
     }
 
+    public function create(Recruiter $user)
+    {
+        $query = "INSERT INTO users(name,email,password) VALUES (:name, :email, :password)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $user->getName(), PDO::PARAM_STR);
+        $stmt->bindParam(':email', $user->getEmail(), PDO::PARAM_STR);
+        $stmt->bindParam(':password', $user->getPassword(), PDO::PARAM_STR);
+        if($stmt->execute()){
+        $id=(int) $this->conn->lastInsertId();
+        $query = "INSERT INTO candidates(id, company_name, company_logo) VALUES (:id, :company_name, :company_logo)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':company_name', $user->getCompany(), PDO::PARAM_STR);
+        $stmt->bindParam(':company_logo', $user->getLogo(), PDO::PARAM_STR);
+        $stmt->execute();
+        }
+        return $this->conn->lastInsertId();
+    }
 }

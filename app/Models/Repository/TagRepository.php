@@ -49,9 +49,10 @@ class TagRepository
         $query = "INSERT INTO tags( title ) VALUES ( :title )";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $this->conn->lastInsertId();
-        return $result;
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 
     public function update($title)
@@ -60,9 +61,10 @@ class TagRepository
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 
     public function delete($id)
@@ -70,8 +72,9 @@ class TagRepository
         $query = "DELETE FROM tags WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        if (!$stmt->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
+        return false;
     }
 }
