@@ -1,6 +1,61 @@
 // Fake job data for modal
 const CreateCategoryForm = document.getElementById("createCategory");
-// var inputCatergoryValue = document.getElementById('CategoryName');
+
+const CategorieContainer = document.getElementById("categoriesDisplay");
+const DisplayCatergoryBtn = document.getElementById("showCategoriesBtn");
+var allCategories;
+document.getElementById("showCategoriesBtn").addEventListener("click", () => {
+  CategorieContainer.innerHTML = "";
+  fetch("http://localhost/CareerLink/app/Views/GetCategory")
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      data.forEach((category) => {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+    <div class="display-tag">
+        <span id="span"> ${category["title"]} </span>
+        <button class="delete-tag-btns" id='dltbtn' data-id="${category["title"]}">×</button>
+    </div>
+`;
+
+        CategorieContainer.appendChild(wrapper.firstElementChild);
+      });
+      allCategories = document.getElementsByClassName("delete-tag-btns");
+      Array.from(allCategories).forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          deleteCategory(e.target.dataset.id, e.target);
+        });
+      });
+    });
+
+  openModal("showCategoriesModal");
+});
+var inputCatergoryValue = document.getElementById("CategoryName");
+function deleteCategory(text, card) {
+  var data = { text };
+  fetch("http://localhost/CareerLink/app/Views/DeleteCategory", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then((data) => {
+      if ((data = "Category Deleted Successfully")) {
+        card.closest(".display-tag").remove();
+      }
+      Swal.fire(data);
+    });
+}
 
 CreateCategoryForm.addEventListener("submit", (e) => {
   submitNewCategory(e);
@@ -26,11 +81,20 @@ function submitNewCategory(e) {
       }
     })
     .then((data) => {
-       Swal.fire(
-        data,
-    );
+      Swal.fire(data);
     });
 }
+
+
+
+
+
+
+// -------------------------------
+
+
+
+
 
 
 
@@ -131,10 +195,6 @@ document.getElementById("showTagsBtn").addEventListener("click", () => {
   openModal("showTagsModal");
 });
 
-document.getElementById("showCategoriesBtn").addEventListener("click", () => {
-  openModal("showCategoriesModal");
-});
-
 // Close modals when clicking outside
 document.querySelectorAll(".modal-overlay").forEach((overlay) => {
   overlay.addEventListener("click", (e) => {
@@ -153,23 +213,23 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Delete tag/category function
-function deleteItem(type, name) {
-  const confirmed = confirm(
-    `Are you sure you want to delete this ${type}: "${name}"?`,
-  );
-  if (confirmed) {
-    console.log(`Deleting ${type}: ${name}`);
-    // Here you would make an AJAX call to delete the item
-    // For now, we'll just remove it from the DOM
-    event.target.parentElement.remove();
+// // Delete tag/category function
+// function deleteItem(type, name) {
+//   const confirmed = confirm(
+//     `Are you sure you want to delete this ${type}: "${name}"?`,
+//   );
+//   if (confirmed) {
+//     console.log(`Deleting ${type}: ${name}`);
+//     // Here you would make an AJAX call to delete the item
+//     // For now, we'll just remove it from the DOM
+//     event.target.parentElement.remove();
 
-    // Show success message
-    alert(
-      `${type.charAt(0).toUpperCase() + type.slice(1)} "${name}" deleted successfully!`,
-    );
-  }
-}
+//     // Show success message
+//     alert(
+//       `${type.charAt(0).toUpperCase() + type.slice(1)} "${name}" deleted successfully!`,
+//     );
+//   }
+// }
 
 // Open job details modal
 function openJobDetails(jobIndex) {
