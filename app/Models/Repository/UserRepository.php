@@ -42,4 +42,18 @@ class UserRepository
         return $result;
     }
 
+    
+    // public function insertUser($user){
+    //     $query = $this->conn->prepare("INSERT INTO users(name, email, password, roleId)
+    //     VALUES :name, :email, :password, :roleId ");
+    //     $name = $user->getName();
+    //     $email = $user->getEmail();
+    //     $password = $user->getPassword();
+    //     $role = $user->getRole()->getId();
+    //     $query->bindParam(':name', $name);
+    //     $query->bindParam(':email', $email);
+    //     $query->bindParam(':password', $password);
+    //     $query->bindParam(':roleId', $role);
+    //     return $query->execute();
+    // }
 }

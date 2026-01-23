@@ -1,14 +1,25 @@
 <?php
-session_start();
-require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Core\Router;
+use App\Controllers\AuthController;
+use App\Controllers\UserController;
+use App\Controllers\AdminController;
+use App\Models\Entity\Recruiter;
+
+session_start();
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $router = new Router();
-$router->get('login', ["AuthController", 'showLogin']);
-$router->get('signup', ["AuthController", 'showRegister']);
-$router->post('login', ["AuthController", 'login']);
-$router->get('logout', ["AuthController", 'logout']);
+
+$router->get('login',[AuthController::class,'showLogin']);
+$router->post('login',[AuthController::class,'login']);
+
+$router->get('signup',[AuthController::class,'showRegister']);
+$router->post('addCandidate',[AuthController::class,'register']);
+$router->post('addRecruiter',[AuthController::class,'register']);
+
+$router->get('logout',[AuthController::class,'logout']);
 
 $router->get('admin/dashboard', ["UserController", 'adminDashboard']);
 $router->get('recruiter/dashboard', ["UserController", 'recruiterDashboard']);
@@ -19,13 +30,9 @@ $router->post('app/Views/DeleteCategory', ["CategoryController", 'DeleteCategory
 
 
 
-$request = $_SERVER['REQUEST_URI'];
-$script_name = "/CareerLink/";
+$Uri = $_SERVER['REQUEST_URI'];
 
-$url = str_replace($script_name, '', $request);
-
-$url = parse_url($url, PHP_URL_PATH);
-
-$url = trim($url, '/');
-
-$router->dispatch($url, $_SERVER['REQUEST_METHOD']);
+$path = str_replace('/CareerLink/','',$Uri);
+$path = parse_url($path, PHP_URL_PATH);
+$path = trim($path,'/');
+$router->dispatch($path, $_SERVER['REQUEST_METHOD']);

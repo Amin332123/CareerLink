@@ -1,17 +1,24 @@
 <?php
-require_once "../../../vendor/autoload.php";
-namespace App\Models\Service;
+// require_once "../../../vendor/autoload.php";
+namespace App\Models\Services;
 
-use App\Models\Entity\Candidate;
 use App\Models\Entity\Admin;
+use App\Models\Entity\Candidate;
 use App\Models\Entity\Recruiter;
+use App\Models\Repository\UserRepository;
+use App\Models\Repository\CandidateRepository;
+use App\Models\Repository\RecruiterRepository;
 
 class AuthService
 {
    private $repo;
+   private $candidateRepo;
+   private $recruiterRepo;
 
    public function __construct(){
       $this->repo = new UserRepository();
+      $this->candidateRepo = new CandidateRepository();
+      $this->recruiterRepo = new RecruiterRepository();
    } 
 
    public function login($email, $password){
@@ -41,12 +48,22 @@ class AuthService
       return false;
    }
 
-
-
-
-   public function register($name, $email, $role, $password,$var1,$var2){
-
+   public function register($name, $email, $role, $password,$var1,$var2,$var3 = null){
+      $user = $this->userRepository->findByEmail($email);
+      if(!$user){
+         if($role === "recruiter"){
+            $adduser = new Recruiter($name, $email, $var1, $var2);
+            $adduser->setPassword(password_hash($password));
+             return $this->RecruiterRepository($adduser);
+         }else if($role === "candidate"){
+            $adduser = new Candidate($name, $email, $var1, $var2);
+            $adduser->setSkills($var3);
+            $adduser->setPassword(password_hash($password));
+            return $this->CandidateRepository($adduser);
+         }
+         }else{
+            return 'email already exists';
+         }
    }
-
 }
 
