@@ -43,8 +43,8 @@ class AuthService
 
 
 
-   public function register($all){
-      
+   public function register($name, $email, $role, $password,$var1,$var2){
+
    }
 
 }
