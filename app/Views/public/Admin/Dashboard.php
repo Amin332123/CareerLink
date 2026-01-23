@@ -343,9 +343,9 @@
                 <h2>Create New Category</h2>
                 <button class="close-modal-btn" onclick="closeModal('createCategoryModal')">×</button>
             </div>
-            <form class="modal-form" action="create_category.php" method="POST">
-                <input type="text" name="category_name" placeholder="Enter category name..." required>
-                <button type="submit" class="submit-modal-btn">Create Category</button>
+            <form class="modal-form" id="createCategory">
+                <input type="text" name="CategoryName" id="CategoryName" placeholder="Enter category name..." required>
+                <input type="submit" class="submit-modal-btn" value="Create Category">
             </form>
         </div>
     </div>
@@ -402,30 +402,8 @@
                 <button class="close-modal-btn" onclick="closeModal('showCategoriesModal')">×</button>
             </div>
             <div class="tags-display" id="categoriesDisplay">
-                <div class="display-tag">
-                    Technology
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Technology')">×</button>
-                </div>
-                <div class="display-tag">
-                    Healthcare
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Healthcare')">×</button>
-                </div>
-                <div class="display-tag">
-                    Finance
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Finance')">×</button>
-                </div>
-                <div class="display-tag">
-                    Marketing
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Marketing')">×</button>
-                </div>
-                <div class="display-tag">
-                    Food & Beverage
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Food & Beverage')">×</button>
-                </div>
-                <div class="display-tag">
-                    Education
-                    <button class="delete-tag-btn" onclick="deleteItem('category', 'Education')">×</button>
-                </div>
+                
+               
             </div>
         </div>
     </div>
@@ -444,5 +422,6 @@
     </div>
 
     <script src="../../public_assets/js/AdminDashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

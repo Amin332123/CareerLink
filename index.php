@@ -13,6 +13,11 @@ $router->get('logout', ["AuthController", 'logout']);
 $router->get('admin/dashboard', ["UserController", 'adminDashboard']);
 $router->get('recruiter/dashboard', ["UserController", 'recruiterDashboard']);
 $router->get('candidate/dashboard', ["UserController", 'candidateDashboard']);
+$router->post('app/Views/CreateCategory', ["CategoryController", 'CreateCategory']);
+$router->get('app/Views/GetCategory', ["CategoryController", 'DisplayCatergories']);
+$router->post('app/Views/DeleteCategory', ["CategoryController", 'DeleteCategory']);
+
+
 
 $request = $_SERVER['REQUEST_URI'];
 $script_name = "/CareerLink/";

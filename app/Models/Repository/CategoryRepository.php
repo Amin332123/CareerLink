@@ -66,14 +66,14 @@ class CategoryRepository
         return false;
     }
 
-    public function delete($id)
+    public function delete($categoryName)
     {
-        $query = "DELETE FROM categories WHERE id=:id";
+        $query = "DELETE FROM categories WHERE title = :title";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':title', $categoryName, PDO::PARAM_STR);
         if (!$stmt->execute()) {
-            return true;
+            echo "Delete went worng , try agaaaain ";
         }
-        return false;
+        echo "Category Deleted Successfully";
     }
 }
