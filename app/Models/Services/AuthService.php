@@ -1,4 +1,5 @@
 <?php
+require_once "../../../vendor/autoload.php";
 namespace App\Models\Service;
 
 use App\Models\Entity\Candidate;

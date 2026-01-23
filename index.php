@@ -28,6 +28,11 @@ $router->get('admin/offfres', [AdminController::class, 'listAllOffers']);
 
 // $router->get('recruiter/dashboard', [RecruiterController::class, 'recruiterDashboard']);
 // $router->get('candidate/dashboard', [CandidateController::class, 'candidateDashboard']);
+$router->post('app/Views/CreateCategory', ["CategoryController", 'CreateCategory']);
+$router->get('app/Views/GetCategory', ["CategoryController", 'DisplayCatergories']);
+$router->post('app/Views/DeleteCategory', ["CategoryController", 'DeleteCategory']);
+
+
 
 $Uri = $_SERVER['REQUEST_URI'];
 
