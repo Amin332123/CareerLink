@@ -4,8 +4,15 @@ namespace App\Controllers;
 
 use App\Models\Services\AuthService;
 
+use App\Models\Services\AuthService;
+
 class AuthController
 {
+    private $Authservice;
+    public function __construct()
+    {
+        $this->Authservice = new AuthService();
+    }
     private $Authservice;
     public function __construct()
     {
@@ -14,10 +21,13 @@ class AuthController
     public function showLogin()
     {
         require_once 'app/Views/public/Auth/login.php';
+        require_once 'app/Views/public/Auth/login.php';
     }
+
 
     public function showRegister()
     {
+        require_once "app/Views/public/Auth/signup.php";
         require_once "app/Views/public/Auth/signup.php";
     }
 
@@ -36,28 +46,41 @@ class AuthController
         }
         if (isset($error)) {
             require_once "app/Views/public/Auth/login.php";
+            require_once "app/Views/public/Auth/login.php";
             exit;
         }
+        $user = $this->Authservice->authenticate($email, $password);
+        if ($user) {
         $user = $this->Authservice->authenticate($email, $password);
         if ($user) {
             $_SESSION["role"] = $user->getRole();
             $_SESSION["user_id"] = $user->getId();
             if ($_SESSION["role"] == "admin") {
                 require_once "app/Views/public/Admin/Dashboard.php";
+            if ($_SESSION["role"] == "admin") {
+                require_once "app/Views/public/Admin/Dashboard.php";
             }
             if ($_SESSION["role"] == "candidate") {
                 require_once "app/Views/public/Candidate/Dashboard.php";
+            if ($_SESSION["role"] == "candidate") {
+                require_once "app/Views/public/Candidate/Dashboard.php";
             }
+            if ($_SESSION["role"] == "recruiter") {
+                require_once "app/Views/public/Admin/Dashboard.php";
             if ($_SESSION["role"] == "recruiter") {
                 require_once "app/Views/public/Admin/Dashboard.php";
             }
         }
     }
     public function register()
+    public function register()
     {
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $role = $_POST['role'];
+
+        if (empty($name) || empty($email) || empty($password)) {
         $role = $_POST['role'];
 
         if (empty($name) || empty($email) || empty($password)) {
@@ -71,29 +94,35 @@ class AuthController
         }
         if (isset($error)) {
             require_once "app/Views/public/Auth/register.php";
+            require_once "app/Views/public/Auth/register.php";
             exit;
         }
         if ($role == 'candidate') {
             $image = $_POST['image'];
+            $jobRole = $_POST['jobRole'];
             $skills = json_decode($_POST['skills']);
-
-            $user = $this->Authservice->addCandidate($email, $name, $password, $image, $skills);
-            }
-        elseif($role == 'recruiter'){
+            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image,$skills);
+        } elseif ($role == 'recruiter'){
             $companyName = $_POST['companyName'];
             $companyImage = $_POST['companyImage'];
-            $user = $this->Authservice->addRecruiter($email, $name, $password, $companyName, $companyImage);
+            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image);
         }
-        if ($user) {
+        if (strpos($user,'exists')) {
             require_once "app/Views/public/Auth/login.php";
-            exit;
+            echo '<script>alert("email already exists")</script>';
+        }else if($user){
+            require_once "app/Views/public/Auth/login.php";
+            echo '<script>alert("user created successfully")</script>';
+
+        }else{
+            echo '<script>alert("Register Error")</script>';
         }
-        echo "error register";
     }
     public function logout()
     {
         session_unset();
         session_destroy();
+        require_once "app/Views/public/Auth/login.php";
         require_once "app/Views/public/Auth/login.php";
     }
 }

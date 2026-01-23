@@ -26,15 +26,15 @@ class CandidateRepository
         return $result;
     }
 
-    public function findByEmail(string $email)
-    {
-        $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE email=:email";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
+    // public function findByEmail(string $email)
+    // {
+    //     $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE email=:email";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    //     $stmt->execute();
+    //     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
     public function findAll()
     {

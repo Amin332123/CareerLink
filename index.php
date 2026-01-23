@@ -6,7 +6,15 @@ use App\Controllers\UserController;
 use App\Controllers\AdminController;
 use App\Models\Entity\Recruiter;
 
+
+use App\Core\Router;
+use App\Controllers\AuthController;
+use App\Controllers\UserController;
+use App\Controllers\AdminController;
+use App\Models\Entity\Recruiter;
+
 session_start();
+
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -16,7 +24,8 @@ $router->get('login',[AuthController::class,'showLogin']);
 $router->post('login',[AuthController::class,'login']);
 
 $router->get('signup',[AuthController::class,'showRegister']);
-$router->post('signup',[AuthController::class,'register']);
+$router->post('addCandidate',[AuthController::class,'register']);
+$router->post('addRecruiter',[AuthController::class,'register']);
 
 $router->get('logout',[AuthController::class,'logout']);
 
