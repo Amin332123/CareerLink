@@ -2,22 +2,50 @@
 namespace App\Models\Service;
 
 use App\Models\Entity\Candidate;
+use App\Models\Entity\Admin;
+use App\Models\Entity\Recruiter;
 
 class AuthService
 {
- public function authenticate($email, $password)
- {
-    $test = new Candidate('ilyas','ilyas@gmail.com','image');
-    return $test;
- }
- public function addCandidate()
- {
-    $test = new Candidate('ilyas','ilyas@gmail.com','image');
-    return $test;
- }
- public function addRecruiter()
- {
-    $test = new Candidate('ilyas','ilyas@gmail.com','image');
-    return $test;
- }
+   private $repo;
+
+   public function __construct(){
+      $this->repo = new UserRepository();
+   } 
+
+   public function login($email, $password){
+      $user = $this->userRepository->findByEmail($email);
+
+      if ($user) {
+         if (password_verify($password,$user['password'])){
+            if($user['title']=='admin'){
+               $admin = new Admin($user['name'],$user['email']);
+               $admin->setPassword($user['password']);
+               $admin->setId($user['id']);
+            SessionService::setUserSession($admin);
+            }else if ($user['title']=='candidate'){
+               $candidate = new Candidate($user['name'],$user['email'],$user['current_job'],$user['profile_picture']);
+               $candidate->setId($user['id']);
+               $candidate->setPassword($user['password']);
+               SessionService::setUserSession($candidate);
+            }else {
+               $recruiter = new Recruiter($user['name'],$user['email'],$user['company_name'],$user['company_logo']);
+               $recruiter->setId($user['id']);
+               $recruiter->setPassword($user['password']);
+               SessionService::setUserSession($recruiter);
+            }
+            return true;
+         }
+      }
+      return false;
+   }
+
+
+
+
+   public function register($all){
+      
+   }
+
 }
+
