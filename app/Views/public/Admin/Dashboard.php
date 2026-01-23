@@ -52,7 +52,7 @@
                     <div class="user-circle recruiters-circle">
                         <div class="circle-content">
                             <span class="circle-icon">💼</span>
-                            <h3 class="circle-number">245</h3>
+                            <h3 class="circle-number"><?php echo $data['recruiters_count']; ?></h3>
                             <p class="circle-label">Recruiters</p>
                         </div>
                     </div>

@@ -1,26 +1,37 @@
 <?php
-session_start();
-require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Core\Router;
+use App\Controllers\AuthController;
+use App\Controllers\UserController;
+use App\Controllers\AdminController;
+use App\Models\Entity\Recruiter;
+
+session_start();
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $router = new Router();
-$router->get('login', ["AuthController", 'showLogin']);
-$router->get('signup', ["AuthController", 'showRegister']);
-$router->post('login', ["AuthController", 'login']);
-$router->get('logout', ["AuthController", 'logout']);
 
-$router->get('admin/dashboard', ["UserController", 'adminDashboard']);
-$router->get('recruiter/dashboard', ["UserController", 'recruiterDashboard']);
-$router->get('candidate/dashboard', ["UserController", 'candidateDashboard']);
+$router->get('login',[AuthController::class,'showLogin']);
+$router->post('login',[AuthController::class,'login']);
 
-$request = $_SERVER['REQUEST_URI'];
-$script_name = "/CareerLink/";
+$router->get('signup',[AuthController::class,'showRegister']);
+$router->post('signup',[AuthController::class,'register']);
 
-$url = str_replace($script_name, '', $request);
+$router->get('logout',[AuthController::class,'logout']);
 
-$url = parse_url($url, PHP_URL_PATH);
+$router->get('admin/dashboard', [AdminController::class, 'adminDashboard']);
+$router->get('admin/candidats', [UserController::class, 'listAllCandidates']);
+$router->get('admin/recruteur', [UserController::class, 'listAllRecruiers']);
+$router->get('admin/offfres', [AdminController::class, 'listAllOffers']);
 
-$url = trim($url, '/');
 
-$router->dispatch($url, $_SERVER['REQUEST_METHOD']);
+// $router->get('recruiter/dashboard', [RecruiterController::class, 'recruiterDashboard']);
+// $router->get('candidate/dashboard', [CandidateController::class, 'candidateDashboard']);
+
+$Uri = $_SERVER['REQUEST_URI'];
+
+$path = str_replace('/CareerLink/','',$Uri);
+$path = parse_url($path, PHP_URL_PATH);
+$path = trim($path,'/');
+$router->dispatch($path, $_SERVER['REQUEST_METHOD']);
