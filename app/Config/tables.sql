@@ -36,8 +36,9 @@ CREATE TABLE IF NOT EXISTS recruiters (
 
 CREATE TABLE IF NOT EXISTS skills (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(50) NOT NULL
-    candidate_id INT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    candidate_id INT NOT NULL,
+    Foreign Key (candidate_id) REFERENCES candidates (id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS categories (

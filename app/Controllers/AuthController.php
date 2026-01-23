@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Service\AuthService;
+use App\Models\Services\AuthService;
 
 class AuthController
 {
@@ -77,12 +77,12 @@ class AuthController
             $image = $_POST['image'];
             $skills = json_decode($_POST['skills']);
 
-            $user = $this->Authservice->addCandidate();
+            $user = $this->Authservice->addCandidate($email, $name, $password, $image, $skills);
             }
         elseif($role == 'recruiter'){
             $companyName = $_POST['companyName'];
             $companyImage = $_POST['companyImage'];
-            $user = $this->Authservice->addRecruiter();
+            $user = $this->Authservice->addRecruiter($email, $name, $password, $companyName, $companyImage);
         }
         if ($user) {
             require_once "app/Views/public/Auth/login.php";

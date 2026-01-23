@@ -38,5 +38,5 @@ $Uri = $_SERVER['REQUEST_URI'];
 
 $path = str_replace('/CareerLink/','',$Uri);
 $path = parse_url($path, PHP_URL_PATH);
-$path = trim($path,'/');
+$path = trim($path,'/'); 
 $router->dispatch($path, $_SERVER['REQUEST_METHOD']);
