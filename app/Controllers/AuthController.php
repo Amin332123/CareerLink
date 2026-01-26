@@ -2,17 +2,23 @@
 
 namespace App\Controllers;
 
-use App\Models\Service\AuthService;
+use App\Models\Services\AuthService;
 
 class AuthController
 {
+    private $Authservice;
+    public function __construct()
+    {
+        $this->Authservice = new AuthService();
+    }
     public function showLogin()
     {
-        require_once "app\Views\public\Auth\login.php";
+        require_once 'app/Views/public/Auth/login.php';
     }
+
     public function showRegister()
     {
-        require_once "app\Views\public\Auth\register.php";
+        require_once "app/Views/public/Auth/signup.php";
     }
 
     public function login()
@@ -29,11 +35,10 @@ class AuthController
             $error = "this email is not a valid email address";
         }
         if (isset($error)) {
-            require_once "app\Views\public\Auth\login.php";
+            require_once "app/Views/public/Auth/login.php";
             exit;
         }
-        $Authservice = new AuthService();
-        $user = $Authservice->authenticate($email, $password);
+        $user = $this->Authservice->authenticate($email, $password);
         if ($user) {
             $_SESSION["role"] = $user->getRole();
             $_SESSION["user_id"] = $user->getId();
@@ -76,14 +81,13 @@ class AuthController
         }
         return false;
     }
-
-    public function addCandidate()
+    public function register()
     {
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $image = $_POST['image'];
-        $skills = json_decode($_POST['skills']);
+        $role = $_POST['role'];
+
         if (empty($name) || empty($email) || empty($password)) {
             $error = "name,Email and Password are required.";
         }
@@ -94,48 +98,34 @@ class AuthController
             $error = "this email is not a valid email address";
         }
         if (isset($error)) {
-            require_once "app\Views\public\Auth\register.php";
+            require_once "app/Views/public/Auth/register.php";
             exit;
         }
-        $Authservice = new AuthService();
-        $user = $Authservice->addCandidate();
-        if ($user) {
-            require_once "app\Views\public\Auth\login.php";
+        if ($role == 'candidate') {
+            $image = $_POST['image'];
+            $jobRole = $_POST['jobRole'];
+            $skills = json_decode($_POST['skills']);
+            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image,$skills);
+        } elseif ($role == 'recruiter'){
+            $companyName = $_POST['companyName'];
+            $companyImage = $_POST['companyImage'];
+            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image);
         }
-        echo "error register";
-    }
-    public function addRecruiter()
-    {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $companyName = $_POST['companyName'];
-        $companyImage = $_POST['companyImage'];
-        if (empty($name) || empty($email) || empty($password)) {
-            $error = "name,Email and Password are required.";
-        }
-        if (strlen($password) < 6) {
-            $error = "Password must be at least 6 characters long.";
-        }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "this email is not a valid email address";
-        }
-        if (isset($error)) {
-            require_once "app\Views\public\Auth\register.php";
-            exit;
-        }
-        $Authservice = new AuthService();
-        $user = $Authservice->addRecruiter();
-        if ($user) {
-            require_once "app\Views\public\Auth\login.php";
-        }
-        echo "error register";
-    }
+        if (strpos($user,'exists')) {
+            require_once "app/Views/public/Auth/login.php";
+            echo '<script>alert("email already exists")</script>';
+        }else if($user){
+            require_once "app/Views/public/Auth/login.php";
+            echo '<script>alert("user created successfully")</script>';
 
+        }else{
+            echo '<script>alert("Register Error")</script>';
+        }
+    }
     public function logout()
     {
         session_unset();
         session_destroy();
-        require_once "app\Views\public\Auth\login.php";
+        require_once "app/Views/public/Auth/login.php";
     }
 }

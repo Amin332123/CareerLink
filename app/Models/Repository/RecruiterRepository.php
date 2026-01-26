@@ -26,14 +26,14 @@ class RecruiterRepository
         return $result;
     }
 
-    public function findByEmail($email){
-        $query = "SELECT * FROM users u INNER JOIN recruiters r ON u.id=r.id WHERE email=:email";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
+    // public function findByEmail($email){
+    //     $query = "SELECT * FROM users u INNER JOIN recruiters r ON u.id=r.id WHERE email=:email";
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    //     $stmt->execute();
+    //     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     return $result;
+    // }
 
     public function findAll(){
         $query = "SELECT * FROM users u INNER JOIN recruiters r ON u.id=r.id WHERE 1=1";
