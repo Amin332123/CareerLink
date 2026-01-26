@@ -15,6 +15,16 @@ class TagRepository
         $this->conn = Database::getConnection();
     }
 
+
+    public function findByOfferId($id)
+    {
+        $query = "SELECT tags.* FROM tags_offers INNER JOIN tags ON  tags.id = tags_offers.tag_id WHERE offer_id=:offer_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':offer_id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     public function findById($id)
     {
         $query = "SELECT * FROM tags WHERE id=:id";
