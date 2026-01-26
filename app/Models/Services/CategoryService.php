@@ -32,6 +32,31 @@ class CategoryService
          $this->categoryRepository->delete($categoryName); 
 
     }
+
+
+
+    public function CreateATag($tagName) { 
+        $res = $this->categoryRepository->createTag($tagName);
+        if ($res == "Tag already exists") {
+           
+            return $res;
+        }  
+        if (!$res) {
+            return null;
+        }
+        return "Tag created successfully";
+    }
+
+    public function DisplayAllTags() :array {
+        $tags = $this->categoryRepository->findAllTags();
+        return $tags;
+    }
+
+
+    public function DeleteATag($tagName) {
+        $this->categoryRepository->deleteTag($tagName);
+    }
+
 }
 
 

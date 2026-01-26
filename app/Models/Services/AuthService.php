@@ -28,17 +28,17 @@ class AuthService
                $admin = new Admin($user['name'],$user['email']);
                $admin->setPassword($user['password']);
                $admin->setId($user['id']);
-            SessionService::setUserSession($admin);
+            return $admin;
             }else if ($user['title']=='candidate'){
                $candidate = new Candidate($user['name'],$user['email'],$user['current_job'],$user['profile_picture']);
                $candidate->setId($user['id']);
                $candidate->setPassword($user['password']);
-               SessionService::setUserSession($candidate);
+               return $candidate;
             }else {
                $recruiter = new Recruiter($user['name'],$user['email'],$user['company_name'],$user['company_logo']);
                $recruiter->setId($user['id']);
                $recruiter->setPassword($user['password']);
-               SessionService::setUserSession($recruiter);
+               return $recruiter;
             }
             return true;
          }

@@ -329,8 +329,8 @@
                 <h2>Create New Tag</h2>
                 <button class="close-modal-btn" onclick="closeModal('createTagModal')">×</button>
             </div>
-            <form class="modal-form" action="create_tag.php" method="POST">
-                <input type="text" name="tag_name" placeholder="Enter tag name..." required>
+            <form class="modal-form" id="tagForm">
+                <input type="text" name="tagName" id="tagName" placeholder="Enter tag name..." required>
                 <button type="submit" class="submit-modal-btn">Create Tag</button>
             </form>
         </div>
@@ -358,38 +358,8 @@
                 <button class="close-modal-btn" onclick="closeModal('showTagsModal')">×</button>
             </div>
             <div class="tags-display" id="tagsDisplay">
-                <div class="display-tag">
-                    Remote
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Remote')">×</button>
-                </div>
-                <div class="display-tag">
-                    Full-time
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Full-time')">×</button>
-                </div>
-                <div class="display-tag">
-                    Part-time
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Part-time')">×</button>
-                </div>
-                <div class="display-tag">
-                    Contract
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Contract')">×</button>
-                </div>
-                <div class="display-tag">
-                    Hybrid
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Hybrid')">×</button>
-                </div>
-                <div class="display-tag">
-                    On-site
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'On-site')">×</button>
-                </div>
-                <div class="display-tag">
-                    Benefits
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Benefits')">×</button>
-                </div>
-                <div class="display-tag">
-                    Health Insurance
-                    <button class="delete-tag-btn" onclick="deleteItem('tag', 'Health Insurance')">×</button>
-                </div>
+                
+                
             </div>
         </div>
     </div>

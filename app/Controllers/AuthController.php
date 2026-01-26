@@ -50,17 +50,44 @@ class AuthController
             $_SESSION["role"] = $user->getRole();
             $_SESSION["user_id"] = $user->getId();
             if ($_SESSION["role"] == "admin") {
-                require_once "app/Views/public/Admin/Dashboard.php";
+                require_once "app\Views\public\Admin\Dashboard.php";
             }
             if ($_SESSION["role"] == "candidate") {
-                require_once "app/Views/public/Candidate/Dashboard.php";
+                require_once "app\Views\public\Candidate\Dashboard.php";
             }
             if ($_SESSION["role"] == "recruiter") {
-                require_once "app/Views/public/Admin/Dashboard.php";
+                require_once "app\Views\public\Admin\Dashboard.php";
             }
         }
     }
 
+    public function uploadImage($file)
+    {
+        $uploadDir = 'app/Views/public_assets/images/';
+        $targetFile = $uploadDir . basename($_FILES[$file]['name']);
+        $uploadOk = 1;
+        $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $check = getimagesize($_FILES[$file]['tmp_name']);
+        if ($check !== false) {
+            $uploadOk = 1;
+        }else{
+            $uploadOk = 0;
+        }
+        if(file_exists($targetFile)){
+            $uploadOk = 0;
+        }
+        if($fileType!='jpg' && $fileType!='jpeg' && $fileType!='png'){
+            $uploadOk = 0;
+        }
+        if($uploadOk){
+            return false;
+        }else{
+            if(move_uploaded_file($_FILES[$file]['tmp_name'],$targetFile)){
+                return $targetFile;
+            }
+        }
+        return false;
+    }
     public function register()
     {
         $name = $_POST['name'];
