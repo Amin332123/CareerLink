@@ -21,8 +21,7 @@ class AuthService
    } 
 
    public function login($email, $password){
-      $user = $this->userRepository->findByEmail($email);
-
+      $user = $this->repo->findByEmail($email);
       if ($user) {
          if (password_verify($password,$user['password'])){
             if($user['title']=='admin'){
