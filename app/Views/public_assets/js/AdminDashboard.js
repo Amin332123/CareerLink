@@ -1,4 +1,4 @@
-// Fake job data for modal
+// Category
 const CreateCategoryForm = document.getElementById("createCategory");
 
 const CategorieContainer = document.getElementById("categoriesDisplay");
@@ -85,12 +85,104 @@ function submitNewCategory(e) {
     });
 }
 
+//  tag
+const tagForm = document.getElementById("tagForm");
 
+tagForm.addEventListener("submit", submitTag);
 
+function submitTag() {
+  var tagInputValue = document.getElementById("tagName").value;
+  var data = { tagInputValue };
+  fetch("http://localhost/CareerLink/app/Views/CreateTag", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.text();
+      } else {
+        return "error";
+      }
+    })
+    .then((data) => {
+      Swal.fire(data);
+    });
+}
 
+const ShowTagsBtn = document.getElementById("showTagsBtn");
 
+ShowTagsBtn.addEventListener("click", DisplayAllTags);
+var allTags;
+function DisplayAllTags() {
+  document.getElementById("tagsDisplay").innerHTML = "";
+  fetch("http://localhost/CareerLink/app/Views/GetTags")
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      data.forEach((tag) => {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = `
+    <div class="display-tag">
+        <span> ${tag["title"]} </span>
+        <button class="delete-tags-btn" data-id="${tag["title"]}">×</button>
+    </div>
+`;
+        document
+          .getElementById("tagsDisplay")
+          .appendChild(wrapper.firstElementChild);
+      });
 
+      allTags = document.getElementsByClassName("delete-tags-btn");
+      Array.from(allTags).forEach((tagBtn) => {
+        tagBtn.addEventListener("click", (e) => {
+          deleteTag(e.target.dataset.id, e.target);
+        });
+      });
+    });
+}
+
+function deleteTag(tagName, card) {
+  var data = { tagName };
+  fetch("http://localhost/CareerLink/app/Views/DeleteTags", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  .then(res => {
+    if (res.ok) {
+        return res.text();
+    }
+  })
+  .then(data => {
+    if (data == "Tag Deleted Successfully") {
+        card.closest(".display-tag").remove();
+        
+    }
+    swal.fire(data);
+    
+  })
+}
 // -------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
