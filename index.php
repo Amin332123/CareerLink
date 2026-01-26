@@ -4,14 +4,8 @@ use App\Core\Router;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\AdminController;
-use App\Models\Entity\Recruiter;
 
 
-use App\Core\Router;
-use App\Controllers\AuthController;
-use App\Controllers\UserController;
-use App\Controllers\AdminController;
-use App\Models\Entity\Recruiter;
 
 session_start();
 
@@ -24,7 +18,7 @@ $router->get('login',[AuthController::class,'showLogin']);
 $router->post('login',[AuthController::class,'login']);
 
 $router->get('signup',[AuthController::class,'showRegister']);
-$router->post('addCandidate',[AuthController::class,'register']);
+$router->post('register',[AuthController::class,'register']);
 $router->post('addRecruiter',[AuthController::class,'register']);
 
 $router->get('logout',[AuthController::class,'logout']);
@@ -37,9 +31,9 @@ $router->get('admin/offfres', [AdminController::class, 'listAllOffers']);
 
 // $router->get('recruiter/dashboard', [RecruiterController::class, 'recruiterDashboard']);
 // $router->get('candidate/dashboard', [CandidateController::class, 'candidateDashboard']);
-$router->post('app/Views/CreateCategory', [CategoryController::class, 'CreateCategory']);
-$router->get('app/Views/GetCategory', [CategoryController::class, 'DisplayCatergories']);
-$router->post('app/Views/DeleteCategory', [CategoryController::class, 'DeleteCategory']);
+$router->post('app/Views/CreateCategory', [AdminController::class, 'CreateCategory']);
+$router->get('app/Views/GetCategory', [AdminController::class, 'DisplayCatergories']);
+$router->post('app/Views/DeleteCategory', [AdminController::class, 'DeleteCategory']);
 
 $router->get('admin/dashboard', [UserController::class, 'adminDashboard']);
 $router->get('recruiter/dashboard', [UserController::class, 'recruiterDashboard']);

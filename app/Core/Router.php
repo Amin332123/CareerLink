@@ -24,7 +24,7 @@ class Router
             exit;
         }
         $controllerName = $this->routes[$requestMethod][$uri][0];
-        $methodName     = $this->routes[$requestMethod][$uri][1];
+        $methodName = $this->routes[$requestMethod][$uri][1];
         $controller = new $controllerName();
         $controller->$methodName();
     }

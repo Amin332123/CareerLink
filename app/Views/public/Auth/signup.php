@@ -36,7 +36,7 @@
             </div>
 
             <!-- Candidate Form -->
-            <form class="signup-form active" id="candidateForm" action="addCandidate" method="POST"
+            <form class="signup-form active" id="candidateForm" action="register" method="POST"
                 enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="candidateName">Full Name</label>
@@ -98,7 +98,7 @@
             </form>
 
             <!-- Recruiter Form -->
-            <form class="signup-form" id="recruiterForm" action="addRecruiter" method="POST"
+            <form class="signup-form" id="recruiterForm" action="register" method="POST"
                 enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="recruiterName">Full Name</label>

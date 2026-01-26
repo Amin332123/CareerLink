@@ -80,8 +80,15 @@ class AdminController
         $data = json_decode(file_get_contents("php://input"), true);
 
         $tagName = $data['tagName'] ?? '';
-       
+
         $this->categoryService->DeleteATag($tagName);
 
+    }
+
+
+
+    public function adminDashboard()
+    {
+        require_once "app/Views/public/Admin/Dashboard.php";
     }
 }

@@ -11,11 +11,7 @@ class AuthController
     {
         $this->Authservice = new AuthService();
     }
-    private $Authservice;
-    public function __construct()
-    {
-        $this->Authservice = new AuthService();
-    }
+    
     public function showLogin()
     {
         require_once 'app/Views/public/Auth/login.php';
