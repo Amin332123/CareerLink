@@ -11,10 +11,17 @@ class AuthController
     {
         $this->Authservice = new AuthService();
     }
+    private $Authservice;
+    public function __construct()
+    {
+        $this->Authservice = new AuthService();
+    }
     public function showLogin()
     {
         require_once 'app/Views/public/Auth/login.php';
+        require_once 'app/Views/public/Auth/login.php';
     }
+
 
     public function showRegister()
     {
@@ -38,7 +45,7 @@ class AuthController
             require_once "app/Views/public/Auth/login.php";
             exit;
         }
-        $user = $this->Authservice->authenticate($email, $password);
+        $user = $this->Authservice->login($email, $password);
         if ($user) {
             $_SESSION["role"] = $user->getRole();
             $_SESSION["user_id"] = $user->getId();
@@ -89,43 +96,48 @@ class AuthController
         $role = $_POST['role'];
 
         if (empty($name) || empty($email) || empty($password)) {
-            $error = "name,Email and Password are required.";
-        }
-        if (strlen($password) < 6) {
-            $error = "Password must be at least 6 characters long.";
-        }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "this email is not a valid email address";
-        }
-        if (isset($error)) {
-            require_once "app/Views/public/Auth/register.php";
-            exit;
-        }
-        if ($role == 'candidate') {
-            $image = $_POST['image'];
-            $jobRole = $_POST['jobRole'];
-            $skills = json_decode($_POST['skills']);
-            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image,$skills);
-        } elseif ($role == 'recruiter'){
-            $companyName = $_POST['companyName'];
-            $companyImage = $_POST['companyImage'];
-            $user = $this->Authservice->register($name, $email, $role, $password,$jobRole,$image);
-        }
-        if (strpos($user,'exists')) {
-            require_once "app/Views/public/Auth/login.php";
-            echo '<script>alert("email already exists")</script>';
-        }else if($user){
-            require_once "app/Views/public/Auth/login.php";
-            echo '<script>alert("user created successfully")</script>';
+            $role = $_POST['role'];
 
-        }else{
-            echo '<script>alert("Register Error")</script>';
+            if (empty($name) || empty($email) || empty($password)) {
+                $error = "name,Email and Password are required.";
+            }
+            if (strlen($password) < 6) {
+                $error = "Password must be at least 6 characters long.";
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = "this email is not a valid email address";
+            }
+            if (isset($error)) {
+                require_once "app/Views/public/Auth/register.php";
+                exit;
+            }
+            if ($role == 'candidate') {
+                $image = $this->uploadImage('image');
+                $jobRole = $_POST['jobRole'];
+                $skills = json_decode($_POST['skills']);
+                $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image, $skills);
+            } elseif ($role == 'recruiter') {
+                $companyName = $_POST['companyName'];
+                $companyImage = $this->uploadImage('companyImage');
+                $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image);
+            }
+            if (strpos($user, 'exists')) {
+                require_once "app/Views/public/Auth/login.php";
+                echo '<script>alert("email already exists")</script>';
+            } else if ($user) {
+                require_once "app/Views/public/Auth/login.php";
+                echo '<script>alert("user created successfully")</script>';
+            } else {
+                echo '<script>alert("Register Error")</script>';
+            }
         }
     }
+
     public function logout()
     {
         session_unset();
         session_destroy();
+        require_once "app/Views/public/Auth/login.php";
         require_once "app/Views/public/Auth/login.php";
     }
 }

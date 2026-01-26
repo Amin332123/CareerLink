@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Career Link</title>
-    <link rel="stylesheet" href="../../public_assets/css/signup.css">
+    <link rel="stylesheet" href="app/views/public_assets/css/signup.css">
 </head>
 
 <body>
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <script src="../../public_assets/js/signup.js"></script>
+    <script src="app/views/public_assets/js/signup.js"></script>
 </body>
 
 </html>

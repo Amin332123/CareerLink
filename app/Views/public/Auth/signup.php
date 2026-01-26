@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Career Link</title>
     <link rel="stylesheet" href="app/Views/public_assets/css/signup.css">
+    <link rel="stylesheet" href="app/views/public_assets/css/signup.css">
 </head>
 
 <body>
@@ -40,6 +41,7 @@
                 <div class="form-group">
                     <label for="candidateName">Full Name</label>
                     <input type="text" id="candidateName" name="name" placeholder="Enter your full name" required>
+                    <input id="role" name="role" value="candidate" type="hidden">
                     <input id="role" name="role" value="candidate" type="hidden">
                 </div>
                 <label for="jobRole"><strong>Select your current role</strong></label>
@@ -102,6 +104,7 @@
                     <label for="recruiterName">Full Name</label>
                     <input type="text" id="recruiterName" name="name" placeholder="Enter your full name" required>
                     <input id="role" name="role" value="recruiter" type="hidden">
+                    <input id="role" name="role" value="recruiter" type="hidden">
                 </div>
 
                 <div class="form-group">
@@ -142,7 +145,7 @@
         </div>
     </div>
 
-    <script src="app/Views/public_assets/js/signup.js"></script>
+    <script src="app/views/public_assets/js/signup.js"></script>
 </body>
 
 </html>

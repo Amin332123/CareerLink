@@ -6,7 +6,15 @@ use App\Controllers\UserController;
 use App\Controllers\AdminController;
 use App\Models\Entity\Recruiter;
 
+
+use App\Core\Router;
+use App\Controllers\AuthController;
+use App\Controllers\UserController;
+use App\Controllers\AdminController;
+use App\Models\Entity\Recruiter;
+
 session_start();
+
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -21,15 +29,27 @@ $router->post('addRecruiter',[AuthController::class,'register']);
 
 $router->get('logout',[AuthController::class,'logout']);
 
-$router->get('admin/dashboard', ["UserController", 'adminDashboard']);
-$router->get('recruiter/dashboard', ["UserController", 'recruiterDashboard']);
-$router->get('candidate/dashboard', ["UserController", 'candidateDashboard']);
-$router->post('app/Views/CreateCategory', ["AdminController", 'CreateCategory']);
-$router->get('app/Views/GetCategory', ["AdminController", 'DisplayCatergories']);
-$router->post('app/Views/DeleteCategory', ["AdminController", 'DeleteCategory']);
-$router->post('app/Views/CreateTag', ["AdminController", 'CreateTag']);
-$router->get('app/Views/GetTags', ["AdminController", 'DisplayTags']);
-$router->post('app/Views/DeleteTags', ["AdminController", 'DeleteTag']);
+$router->get('admin/dashboard', [AdminController::class, 'adminDashboard']);
+$router->get('admin/candidats', [UserController::class, 'listAllCandidates']);
+$router->get('admin/recruteur', [UserController::class, 'listAllRecruiers']);
+$router->get('admin/offfres', [AdminController::class, 'listAllOffers']);
+
+
+// $router->get('recruiter/dashboard', [RecruiterController::class, 'recruiterDashboard']);
+// $router->get('candidate/dashboard', [CandidateController::class, 'candidateDashboard']);
+$router->post('app/Views/CreateCategory', [CategoryController::class, 'CreateCategory']);
+$router->get('app/Views/GetCategory', [CategoryController::class, 'DisplayCatergories']);
+$router->post('app/Views/DeleteCategory', [CategoryController::class, 'DeleteCategory']);
+
+$router->get('admin/dashboard', [UserController::class, 'adminDashboard']);
+$router->get('recruiter/dashboard', [UserController::class, 'recruiterDashboard']);
+$router->get('candidate/dashboard', [UserController::class, 'candidateDashboard']);
+$router->post('app/Views/CreateCategory', [AdminController::class, 'CreateCategory']);
+$router->get('app/Views/GetCategory', [AdminController::class, 'DisplayCatergories']);
+$router->post('app/Views/DeleteCategory', [AdminController::class, 'DeleteCategory']);
+$router->post('app/Views/CreateTag', [AdminController::class, 'CreateTag']);
+$router->get('app/Views/GetTags', [AdminController::class, 'DisplayTags']);
+$router->post('app/Views/DeleteTags', [AdminController::class, 'DeleteTag']);
 
 
 $Uri = $_SERVER['REQUEST_URI'];
