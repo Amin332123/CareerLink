@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recruiter Dashboard - Career Link</title>
-    <link rel="stylesheet" href="../../public_assets/css/RecruiterDashboard.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/RecruiterDashboard.css">
     <style>
         /* Delete Button Styles - Added to fit the theme */
         .job-offer-card {
@@ -344,6 +344,6 @@
         </div>
     </div>
 
-    <script src="../../public_assets/js/RecruiterDashboard.js"></script>
+    <script src="app/Views/public_assets/js/RecruiterDashboard.js"></script>
 </body>
 </html>

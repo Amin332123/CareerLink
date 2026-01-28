@@ -18,7 +18,7 @@ class RecruiterRepository
 
     public function findById($id)
     {
-        $query = "SELECT * FROM users u INNER JOIN recruiters r ON u.id=r.id WHERE id=:id";
+        $query = "SELECT * FROM users u INNER JOIN recruiters r ON u.id=r.id WHERE u.id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

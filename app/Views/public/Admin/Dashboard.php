@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CareerLink</title>
-    <link rel="stylesheet" href="../../public_assets/css/AdminDashboard.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/AdminDashboard.css">
 </head>
 <body>
     <!-- Header -->
@@ -391,7 +391,7 @@
         </div>
     </div>
 
-    <script src="../../public_assets/js/AdminDashboard.js"></script>
+    <script src="app/Views/public_assets/js/AdminDashboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
