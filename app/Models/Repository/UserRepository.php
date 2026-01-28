@@ -17,7 +17,7 @@ class UserRepository
 
     public function findById($id)
     {
-        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE id=:id";
+        $query = "SELECT u.*,r.title FROM users u INNER JOIN roles r ON u.role_id=r.id WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -26,7 +26,7 @@ class UserRepository
     }
 
     public function findByEmail($email){
-        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE email=:email";
+        $query = "SELECT u.*,r.title FROM users u INNER JOIN roles r ON u.role_id=r.id WHERE email=:email";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
@@ -35,7 +35,7 @@ class UserRepository
     }
 
     public function findAll(){
-        $query = "SELECT * FROM users u INNER JOIN roles r ON u.role_id=r.u.id WHERE 1=1";
+        $query = "SELECT u.*,r.title FROM users u INNER JOIN roles r ON u.role_id=r.id WHERE 1=1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

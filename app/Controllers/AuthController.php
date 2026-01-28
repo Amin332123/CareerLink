@@ -11,10 +11,9 @@ class AuthController
     {
         $this->Authservice = new AuthService();
     }
-    
+
     public function showLogin()
     {
-        require_once 'app/Views/public/Auth/login.php';
         require_once 'app/Views/public/Auth/login.php';
     }
 
@@ -49,11 +48,15 @@ class AuthController
                 require_once "app\Views\public\Admin\Dashboard.php";
             }
             if ($_SESSION["role"] == "candidate") {
-                require_once "app\Views\public\Candidate\Dashboard.php";
+                require_once "app\Views\public\Condidate\Dashboard.php";
             }
             if ($_SESSION["role"] == "recruiter") {
                 require_once "app\Views\public\Admin\Dashboard.php";
             }
+        } else {
+            $error = "wrong credentials";
+            require_once "app/Views/public/Auth/login.php";
+            exit;
         }
     }
 
@@ -66,23 +69,29 @@ class AuthController
         $check = getimagesize($_FILES[$file]['tmp_name']);
         if ($check !== false) {
             $uploadOk = 1;
-        }else{
+        } else {
+            echo 'size';
             $uploadOk = 0;
+            exit;
         }
-        if(file_exists($targetFile)){
+        if (file_exists($targetFile)) {
+            echo 'exists';
             $uploadOk = 0;
+            exit;
         }
-        if($fileType!='jpg' && $fileType!='jpeg' && $fileType!='png'){
+        if ($fileType != 'jpg' && $fileType != 'jpeg' && $fileType != 'png') {
+            echo 'type';
             $uploadOk = 0;
+            exit;
         }
-        if($uploadOk){
+        if ($uploadOk === 0) {
+            echo 'not okay';
             return false;
-        }else{
-            if(move_uploaded_file($_FILES[$file]['tmp_name'],$targetFile)){
+        } else {
+            if (move_uploaded_file($_FILES[$file]['tmp_name'], $targetFile)) {
                 return $targetFile;
             }
         }
-        return false;
     }
     public function register()
     {
@@ -91,8 +100,8 @@ class AuthController
         $password = $_POST['password'];
         $role = $_POST['role'];
 
+
         if (empty($name) || empty($email) || empty($password)) {
-            $role = $_POST['role'];
 
             if (empty($name) || empty($email) || empty($password)) {
                 $error = "name,Email and Password are required.";
@@ -103,31 +112,41 @@ class AuthController
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = "this email is not a valid email address";
             }
-            if (isset($error)) {
-                require_once "app/Views/public/Auth/register.php";
-                exit;
-            }
-            if ($role == 'candidate') {
-                $image = $this->uploadImage('image');
-                $jobRole = $_POST['jobRole'];
-                $skills = json_decode($_POST['skills']);
-                $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image, $skills);
-            } elseif ($role == 'recruiter') {
-                $companyName = $_POST['companyName'];
-                $companyImage = $this->uploadImage('companyImage');
-                $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image);
-            }
-            if (strpos($user, 'exists')) {
-                require_once "app/Views/public/Auth/login.php";
-                echo '<script>alert("email already exists")</script>';
-            } else if ($user) {
-                require_once "app/Views/public/Auth/login.php";
-                echo '<script>alert("user created successfully")</script>';
+        }
+
+        if ($role == 'candidate') {
+            $image = $this->uploadImage('image');
+            $jobRole = $_POST['jobRole'];
+            $skills = json_decode($_POST['skills']);
+            if (!is_string($image)) {
+                $error = "error uploading your image, please try again";
             } else {
-                echo '<script>alert("Register Error")</script>';
+                $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image, $skills);
+            }
+        } elseif ($role == 'recruiter') {
+            $companyName = $_POST['companyName'];
+            $companyImage = $this->uploadImage('companyImage');
+            if ($companyImage) {
+                $error = "error uploading your image, please try again";
+            } else {
+                $user = $this->Authservice->register($name, $email, $role, $password, $companyName, $companyImage);
             }
         }
+        if (isset($error)) {
+            require_once "app/Views/public/Auth/signup.php";
+            exit;
+        }
+        if (strpos($user, 'exists')) {
+            require_once "app/Views/public/Auth/login.php";
+            echo '<script>alert("email already exists")</script>';
+        } else if ($user) {
+            require_once "app/Views/public/Auth/login.php";
+            echo '<script>alert("user created successfully")</script>';
+        } else {
+            echo '<script>alert("Register Error")</script>';
+        }
     }
+
 
     public function logout()
     {

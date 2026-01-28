@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Recommended Jobs - Career Link</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../public_assets/css/recommendedJobs.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/recommendedJobs.css">
 </head>
 <body>
 
@@ -128,6 +128,6 @@
     </div>
 </div>
 
-<script src="../../public_assets/js/recommendedJobs.js"></script>
+<script src="app/Views/public_assets/js/recommendedJobs.js"></script>
 </body>
 </html>

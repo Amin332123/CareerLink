@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS candidates (
     id INT PRIMARY KEY,
     current_job VARCHAR(50) NOT NULL,
-    profile_picture VARCHAR(100) NOT NULL,
+    profile_picture VARCHAR(200) NOT NULL,
     Foreign Key (id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS recruiters (
     id INT PRIMARY KEY,
     company_name VARCHAR(50) NOT NULL,
-    company_logo VARCHAR(100) NOT NULL,
+    company_logo VARCHAR(200) NOT NULL,
     Foreign Key (id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
@@ -86,3 +86,5 @@ CREATE TABLE IF NOT EXISTS applications (
     Foreign Key (candidate_id) REFERENCES candidates (id) ON DELETE CASCADE,
     Foreign Key (offer_id) REFERENCES offers (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+
+INSERT INTO roles VALUES(1,"admin"),(2,"candidate"),(3,"recruiter")

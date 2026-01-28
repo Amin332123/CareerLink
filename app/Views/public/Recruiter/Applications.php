@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Review Dashboard</title>
-    <link rel="stylesheet" href="../../public_assets/css/recruiterApplications.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/recruiterApplications.css">
 </head>
 <body>
     <div class="container">
@@ -107,6 +107,6 @@
         </div>
     </div>
 
-    <script src="../../public_assets/js/recruiterApplications.js"></script>
+    <script src="app/Views/public_assets/js/recruiterApplications.js"></script>
 </body>
 </html>

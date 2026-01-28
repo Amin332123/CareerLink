@@ -30,14 +30,17 @@ class AuthService
                $admin->setId($user['id']);
             return $admin;
             }else if ($user['title']=='candidate'){
-               $candidate = new Candidate($user['name'],$user['email'],$user['current_job'],$user['profile_picture']);
-               $candidate->setId($user['id']);
-               $candidate->setPassword($user['password']);
+               $data = $this->candidateRepo->findById($user['id']);
+               $candidate = new Candidate($data['name'],$data['email'],$data['current_job'],$data['profile_picture']);
+               $candidate->setId($data['id']);
+               $candidate->setPassword($data['password']);
                return $candidate;
             }else {
-               $recruiter = new Recruiter($user['name'],$user['email'],$user['company_name'],$user['company_logo']);
-               $recruiter->setId($user['id']);
-               $recruiter->setPassword($user['password']);
+               $data = $this->recruiterRepo->findById($user['id']);
+               var_dump($data);exit;
+               $recruiter = new Recruiter($data['name'],$data['email'],$data['company_name'],$data['company_logo']);
+               $recruiter->setId($data['id']);
+               $recruiter->setPassword($data['password']);
                return $recruiter;
             }
             return true;
@@ -47,17 +50,17 @@ class AuthService
    }
 
    public function register($name, $email, $role, $password,$var1,$var2,$var3 = null){
-      $user = $this->userRepository->findByEmail($email);
+      $user = $this->repo->findByEmail($email);
       if(!$user){
          if($role === "recruiter"){
             $adduser = new Recruiter($name, $email, $var1, $var2);
-            $adduser->setPassword(password_hash($password));
-             return $this->RecruiterRepository($adduser);
+            $adduser->setPassword(password_hash($password,PASSWORD_DEFAULT));
+             return $this->recruiterRepo->create($adduser);
          }else if($role === "candidate"){
             $adduser = new Candidate($name, $email, $var1, $var2);
             $adduser->setSkills($var3);
-            $adduser->setPassword(password_hash($password));
-            return $this->CandidateRepository($adduser);
+            $adduser->setPassword(password_hash($password,PASSWORD_DEFAULT));
+            return $this->candidateRepo->create($adduser);
          }
          }else{
             return 'email already exists';

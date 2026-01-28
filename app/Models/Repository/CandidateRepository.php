@@ -18,7 +18,7 @@ class CandidateRepository
 
     public function findById(int $id)
     {
-        $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE id=:id";
+        $query = "SELECT * FROM users u INNER JOIN candidates c ON u.id=c.id WHERE u.id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -47,18 +47,23 @@ class CandidateRepository
 
     public function create(Candidate $user)
     {
-        $query = "INSERT INTO users(name,email,password) VALUES (:name, :email, :password)";
+        $query = "INSERT INTO users(name,email,password,role_id) VALUES (:name, :email, :password,2)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':name', $user->getName(), PDO::PARAM_STR);
-        $stmt->bindParam(':email', $user->getEmail(), PDO::PARAM_STR);
-        $stmt->bindParam(':password', $user->getPassword(), PDO::PARAM_STR);
+        $name = $user->getName();
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+        $picture = $user->getPicture();
+        $job = $user->getJob();
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         if ($stmt->execute()) {
             $id = (int) $this->conn->lastInsertId();
             $query = "INSERT INTO candidates(id, current_job, profile_picture) VALUES (:id, :current_job, :profile_picture)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':current_job', $user->getPicture(), PDO::PARAM_STR);
-            $stmt->bindParam(':profile_picture', $user->getJob(), PDO::PARAM_STR);
+            $stmt->bindParam(':current_job', $job, PDO::PARAM_STR);
+            $stmt->bindParam(':profile_picture', $picture, PDO::PARAM_STR);
             if ($stmt->execute()) {
                 return true;
             }

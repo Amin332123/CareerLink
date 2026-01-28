@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Link - Connect Talent with Opportunity</title>
-    <link rel="stylesheet" href="../public_assets/css/home.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/home.css">
 </head>
 <body>
     <!-- Header -->

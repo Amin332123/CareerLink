@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Career Link</title>
-    <link rel="stylesheet" href="../../public_assets/css/UserDashboard.css">
+    <link rel="stylesheet" href="app/Views/public_assets/css/UserDashboard.css">
 </head>
 <body>
     <div class="dashboard-container">
@@ -269,6 +269,6 @@
     </div>
 </div>
 
-    <script src="../../public_assets/js/userDashboard.js"></script>
+    <script src="app/Views/public_assets/js/userDashboard.js"></script>
 </body>
 </html>
