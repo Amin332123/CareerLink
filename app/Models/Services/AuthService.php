@@ -37,7 +37,6 @@ class AuthService
                return $candidate;
             }else {
                $data = $this->recruiterRepo->findById($user['id']);
-               var_dump($data);exit;
                $recruiter = new Recruiter($data['name'],$data['email'],$data['company_name'],$data['company_logo']);
                $recruiter->setId($data['id']);
                $recruiter->setPassword($data['password']);

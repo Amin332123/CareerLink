@@ -1,3 +1,7 @@
+<?php
+$errors = $_SESSION['errors'] ?? null;
+unset($_SESSION['errors']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +19,14 @@
             <div class="shape shape-2"></div>
             <div class="shape shape-3"></div>
         </div>
+
+        <?php if (!empty($errors)): ?>
+            <?php foreach($errors AS $error): ?>
+            <div class="signup-card card-header">
+                <p style="color: red;"><?= $error ?></p>
+            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
         <div class="signup-card">
             <div class="card-header">

@@ -28,16 +28,17 @@ class AuthController
         $email = $_POST['email'];
         $password  = $_POST['password'];
         if (empty($email) || empty($password)) {
-            $error = "Email and Password are required.";
+            $errors[] = "Email and Password are required.";
         }
         if (strlen($password) < 6) {
-            $error = "Password must be at least 6 characters long.";
+            $errors[] = "Password must be at least 6 characters long.";
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "this email is not a valid email address";
+            $errors[] = "this email is not a valid email address";
         }
-        if (isset($error)) {
-            require_once "app/Views/public/Auth/login.php";
+        if (isset($errors)) {
+            $_SESSION['errors'] = $errors;
+            header("location: login");
             exit;
         }
         $user = $this->Authservice->login($email, $password);
@@ -45,17 +46,20 @@ class AuthController
             $_SESSION["role"] = $user->getRole();
             $_SESSION["user_id"] = $user->getId();
             if ($_SESSION["role"] == "admin") {
-                require_once "app\Views\public\Admin\Dashboard.php";
+                header("location: admin/dashboard");
+                exit;
             }
             if ($_SESSION["role"] == "candidate") {
-                require_once "app\Views\public\Condidate\Dashboard.php";
+                header("location: candidate/dashboard");
+                exit;
             }
             if ($_SESSION["role"] == "recruiter") {
-                require_once "app\Views\public\Admin\Dashboard.php";
+                header("location: recruiter/dashboard");
+                exit;
             }
         } else {
-            $error = "wrong credentials";
-            require_once "app/Views/public/Auth/login.php";
+            $_SESSION['errors'][] = "wrong credentials";
+            header("location: login");
             exit;
         }
     }
@@ -100,17 +104,16 @@ class AuthController
         $password = $_POST['password'];
         $role = $_POST['role'];
 
-
         if (empty($name) || empty($email) || empty($password)) {
 
             if (empty($name) || empty($email) || empty($password)) {
-                $error = "name,Email and Password are required.";
+                $errors[] = "name,Email and Password are required.";
             }
             if (strlen($password) < 6) {
-                $error = "Password must be at least 6 characters long.";
+                $errors[] = "Password must be at least 6 characters long.";
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "this email is not a valid email address";
+                $errors[] = "this email is not a valid email address";
             }
         }
 
@@ -119,7 +122,7 @@ class AuthController
             $jobRole = $_POST['jobRole'];
             $skills = json_decode($_POST['skills']);
             if (!is_string($image)) {
-                $error = "error uploading your image, please try again";
+                $errors[] = "error uploading your image, please try again";
             } else {
                 $user = $this->Authservice->register($name, $email, $role, $password, $jobRole, $image, $skills);
             }
@@ -127,23 +130,28 @@ class AuthController
             $companyName = $_POST['companyName'];
             $companyImage = $this->uploadImage('companyImage');
             if ($companyImage) {
-                $error = "error uploading your image, please try again";
+                $errors[] = "error uploading your image, please try again";
             } else {
                 $user = $this->Authservice->register($name, $email, $role, $password, $companyName, $companyImage);
             }
         }
-        if (isset($error)) {
-            require_once "app/Views/public/Auth/signup.php";
+        if (isset($errors)) {
+            $_SESSION['errors'] = $errors;
+            header("location: signup");
             exit;
         }
         if (strpos($user, 'exists')) {
-            require_once "app/Views/public/Auth/login.php";
-            echo '<script>alert("email already exists")</script>';
+            $_SESSION['errors'][] = 'user already exists';
+            header("location: login");
+            exit;
         } else if ($user) {
-            require_once "app/Views/public/Auth/login.php";
+            header("location: login");
             echo '<script>alert("user created successfully")</script>';
+            exit;
         } else {
-            echo '<script>alert("Register Error")</script>';
+            $_SESSION['errors'][] = 'registering error';
+            header("location: signup");
+            exit;
         }
     }
 
@@ -152,7 +160,7 @@ class AuthController
     {
         session_unset();
         session_destroy();
-        require_once "app/Views/public/Auth/login.php";
-        require_once "app/Views/public/Auth/login.php";
+        header("location: login");
+        exit;    
     }
 }

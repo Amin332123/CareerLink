@@ -23,9 +23,9 @@ $router->post('register',[AuthController::class,'register']);
 $router->get('logout',[AuthController::class,'logout']);
 
 $router->get('admin/dashboard', [AdminController::class, 'adminDashboard']);
+$router->get('admin/offres', [AdminController::class, 'listAllOffers']);
 $router->get('admin/candidats', [UserController::class, 'listAllCandidates']);
 $router->get('admin/recruteur', [UserController::class, 'listAllRecruiers']);
-$router->get('admin/offfres', [AdminController::class, 'listAllOffers']);
 
 $router->get('admin/dashboard', [UserController::class, 'adminDashboard']);
 $router->get('recruiter/dashboard', [UserController::class, 'recruiterDashboard']);

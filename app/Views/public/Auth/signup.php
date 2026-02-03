@@ -1,3 +1,7 @@
+<?php
+$errors = $_SESSION['errors'] ?? null;
+unset($_SESSION['errors']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,10 +21,12 @@
             <div class="shape shape-3"></div>
         </div>
 
-        <?php if (isset($error)): ?>
+        <?php if (!empty($errors)): ?>
+            <?php foreach($errors AS $error): ?>
             <div class="signup-card card-header">
                 <p style="color: red;"><?= $error ?></p>
             </div>
+            <?php endforeach; ?>
         <?php endif; ?>
 
             <div class="signup-card">
@@ -47,7 +53,6 @@
                     <div class="form-group">
                         <label for="candidateName">Full Name</label>
                         <input type="text" id="candidateName" name="name" placeholder="Enter your full name" required>
-                        <input id="role" name="role" value="candidate" type="hidden">
                         <input id="role" name="role" value="candidate" type="hidden">
                     </div>
                     <label for="jobRole"><strong>Select your current role</strong></label>
